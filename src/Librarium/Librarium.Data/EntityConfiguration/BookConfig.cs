@@ -23,6 +23,10 @@ namespace Librarium.Data.EntityConfiguration
             builder.Property(x => x.PublicationYear)
                 .IsRequired();
 
+            builder.Property(x => x.IsRetired)
+                .IsRequired()
+                .HasDefaultValue(false);
+
             builder.HasMany(x => x.Authors)
                 .WithMany(x => x.Books)
                 .UsingEntity<Dictionary<string, object>>(

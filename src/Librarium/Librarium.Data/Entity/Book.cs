@@ -12,6 +12,8 @@ namespace Librarium.Data.Entity
 
         public int PublicationYear { get; set; }
 
+        public bool IsRetired { get; set; }
+
         public ICollection<Loan> Loans { get; set; } = new List<Loan>();
 
         public ICollection<Author> Authors { get; set; } = new List<Author>();

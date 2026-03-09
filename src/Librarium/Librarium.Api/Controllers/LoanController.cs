@@ -20,10 +20,15 @@ namespace Librarium.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateLoan([FromBody] CreateLoanRequest request)
         {
-            var bookExists = await _context.Books.AnyAsync(x => x.Id == request.BookId);
-            if (!bookExists)
+            var book = await _context.Books.FirstOrDefaultAsync(x => x.Id == request.BookId);
+            if (book == null)
             {
                 return BadRequest(new { message = $"Book with id {request.BookId} does not exist." });
+            }
+
+            if (book.IsRetired)
+            {
+                return BadRequest(new { message = "Retired books cannot be loaned." });
             }
 
             var memberExists = await _context.Members.AnyAsync(x => x.Id == request.MemberId);

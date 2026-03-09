@@ -22,6 +22,7 @@ namespace Librarium.Api.Controllers
         {
             var books = await _context.Books
                 .AsNoTracking()
+                .Where(x => !x.IsRetired)
                 .Include(x => x.Authors)
                 .OrderBy(x => x.Title)
                 .Select(x => new BookResponse
@@ -31,8 +32,6 @@ namespace Librarium.Api.Controllers
                     Isbn = x.Isbn,
                     PublicationYear = x.PublicationYear,
                     Authors = x.Authors
-                        .OrderBy(a => a.LastName)
-                        .ThenBy(a => a.FirstName)
                         .Select(a => new AuthorResponse
                         {
                             AuthorId = a.Id,
@@ -62,6 +61,18 @@ namespace Librarium.Api.Controllers
             };
 
             book.Authors.Add(author);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+        
+        [HttpPost("{bookId:int}/retire")]
+        public async Task<IActionResult> RetireBook(int bookId)
+        {
+            var book = await _context.Books.FirstAsync(x => x.Id == bookId);
+
+            book.IsRetired = true;
 
             await _context.SaveChangesAsync();
 

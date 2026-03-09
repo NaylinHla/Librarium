@@ -47,3 +47,14 @@ Existing loans are backfilled based on ReturnDate:
 - ReturnDate is not null -> Returned
 
 The existing loan API contract remains unchanged so current clients can continue to use ReturnDate during until frontend team is ready >:D
+
+## V006__add_book_retirement.sql
+Date: 2026-03-09
+
+Adds IsRetired to Books with a default value of false.
+
+Review note:
+Accepted the soft-delete idea but changed the implementation.
+Renamed IsDeleted to IsRetired to better match the business meaning.
+Retired books are hidden from catalogue/search and cannot receive new loans, but they remain visible in loan history so existing records still resolve their book details.
+Avoided a global filter to prevent book data from disappearing in loan responses.

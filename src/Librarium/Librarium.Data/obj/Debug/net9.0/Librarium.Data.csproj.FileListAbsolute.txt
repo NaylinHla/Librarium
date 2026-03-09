@@ -1,0 +1,12 @@
+C:\Users\nayli\Desktop\Librarium-start\Librarium\src\Librarium\Librarium.Data\obj\Debug\net9.0\Librarium.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nayli\Desktop\Librarium-start\Librarium\src\Librarium\Librarium.Data\obj\Debug\net9.0\Librarium.Data.AssemblyInfoInputs.cache
+C:\Users\nayli\Desktop\Librarium-start\Librarium\src\Librarium\Librarium.Data\obj\Debug\net9.0\Librarium.Data.AssemblyInfo.cs
+C:\Users\nayli\Desktop\Librarium-start\Librarium\src\Librarium\Librarium.Data\obj\Debug\net9.0\Librarium.Data.csproj.CoreCompileInputs.cache
+C:\Users\nayli\Desktop\Librarium-start\Librarium\src\Librarium\Librarium.Data\bin\Debug\net9.0\Librarium.Data.deps.json
+C:\Users\nayli\Desktop\Librarium-start\Librarium\src\Librarium\Librarium.Data\bin\Debug\net9.0\Librarium.Data.dll
+C:\Users\nayli\Desktop\Librarium-start\Librarium\src\Librarium\Librarium.Data\bin\Debug\net9.0\Librarium.Data.pdb
+C:\Users\nayli\Desktop\Librarium-start\Librarium\src\Librarium\Librarium.Data\obj\Debug\net9.0\Librarium.Data.csproj.AssemblyReference.cache
+C:\Users\nayli\Desktop\Librarium-start\Librarium\src\Librarium\Librarium.Data\obj\Debug\net9.0\Librarium.Data.dll
+C:\Users\nayli\Desktop\Librarium-start\Librarium\src\Librarium\Librarium.Data\obj\Debug\net9.0\refint\Librarium.Data.dll
+C:\Users\nayli\Desktop\Librarium-start\Librarium\src\Librarium\Librarium.Data\obj\Debug\net9.0\Librarium.Data.pdb
+C:\Users\nayli\Desktop\Librarium-start\Librarium\src\Librarium\Librarium.Data\obj\Debug\net9.0\ref\Librarium.Data.dll

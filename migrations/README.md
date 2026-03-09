@@ -21,61 +21,161 @@ Versioned SQL migrations for the Librarium database.
 ## V001__initial_schema.sql
 Date: 2026-03-09
 
-Initial database schema.
+**Description**  
+Creates the initial schema with the Books, Members, and Loans tables.
 
-Creates tables:
-- Books
-- Members
-- Loans
+**Type of change**  
+Additive (non-breaking)
 
-Relationships:
-- Loans.BookId → Books.Id
-- Loans.MemberId → Members.Id
+**API impact**  
+No API endpoints existed before this migration.
+
+**Deployment notes**  
+Must be applied before the API can run.
+
+**Decisions and tradeoffs**  
+This migration establishes the core entities and their relationships.
+Loans reference both Books and Members through foreign keys. The schema
+was intentionally kept simple so later requirements could evolve the
+structure through additional migrations.
+
+---
 
 ## V002__add_authors_to_books.sql
 Date: 2026-03-09
 
-Adds Authors and BookAuthors tables.
+**Description**  
+Adds Authors and BookAuthors tables so books can have multiple authors.
 
-Books may exist without authors. Endpoint created to add an Author later if wanted.
+**Type of change**  
+Additive (non-breaking)
+
+**API impact**  
+`GET /api/books` now includes authors. This is backwards compatible since
+clients can ignore the new field.
+
+**Deployment notes**  
+Safe to deploy before or after the application update.
+
+**Decisions and tradeoffs**  
+Existing books already existed without authors. Making the relationship
+required would have caused migration issues, so it was implemented as
+optional. An endpoint was added to attach authors later if needed.
+
+---
 
 ## V003__add_nullable_phone_number_to_members.sql
 Date: 2026-03-09
 
-Adds PhoneNumber to Members as nullable to allow staged rollout.
+**Description**  
+Adds a nullable `PhoneNumber` column to Members.
 
-I would while this is in production decide how to handle duplicate emails and users without phone numbers.
+**Type of change**  
+Additive (potentially breaking later)
+
+**API impact**  
+No API changes yet. The column prepares the schema for new registration
+requirements.
+
+**Deployment notes**  
+Safe to deploy before updating the application because the column is
+nullable.
+
+**Decisions and tradeoffs**  
+Existing members do not have phone numbers. Introducing the column as
+nullable allows the system to transition without breaking current data.
+Duplicate emails and missing phone numbers must be resolved before the
+next enforcement migration.
+
+---
 
 ## V004__enforce_unique_email_and_required_phone_number.sql
 Date: 2026-03-09
 
-Makes PhoneNumber required in Members and enforces uniqueness on Email.
+**Description**  
+Makes `PhoneNumber` required and enforces uniqueness on `Email`.
 
-This migration assumes duplicate emails have been resolved and missing phone numbers have been populated before execution.
+**Type of change**  
+Additive (potentially breaking)
+
+**API impact**  
+Member creation now requires a phone number and duplicate emails are
+rejected.
+
+**Deployment notes**  
+Duplicate emails and missing phone numbers must be resolved before this
+migration runs.
+
+**Decisions and tradeoffs**  
+The constraints were introduced in a separate migration so existing data
+could be cleaned first. This avoids migration failures and allows the
+application to transition safely to the new requirements.
+
+---
 
 ## V005__add_loan_status.sql
 Date: 2026-03-09
 
-Adds Status to Loans with a default value of Active.
+**Description**  
+Adds a `Status` column to Loans.
 
-Existing loans are backfilled based on ReturnDate:
-- ReturnDate is null -> Active
-- ReturnDate is not null -> Returned
+**Type of change**  
+Additive (non-breaking)
 
-The existing loan API contract remains unchanged so current clients can continue to use ReturnDate during until frontend team is ready >:D
+**API impact**  
+The existing loan endpoint still uses `ReturnDate` to determine whether
+a loan is open.
+
+**Deployment notes**  
+Safe to deploy before the application update because the column has a
+default value.
+
+**Decisions and tradeoffs**  
+The frontend cannot update immediately, so the API contract must stay
+unchanged. Existing loans are backfilled based on `ReturnDate` while the
+new `Status` field enables more detailed loan states in the future.
+
+---
 
 ## V006__add_book_retirement.sql
 Date: 2026-03-09
 
-Adds IsRetired to Books with a default value of false.
+**Description**  
+Adds an `IsRetired` flag to Books.
 
-Review note:
-Accepted the soft-delete idea but changed the implementation.
-Renamed IsDeleted to IsRetired to better match the business meaning.
-Retired books are hidden from catalogue/search and cannot receive new loans, but they remain visible in loan history so existing records still resolve their book details.
-Avoided a global filter to prevent book data from disappearing in loan responses.
+**Type of change**  
+Additive (non-breaking)
 
-## Requirement 5 note:
-No migration was needed for ISBN in this implementation.
-The ISBN column was already defined as a string, so the schema already supports hyphens and formatted ISBN values.
-Because the incorrect integer-based design was never present in this project, no data replacement or API transition was required.
+**API impact**  
+`GET /api/books` now excludes retired books, but loan history still
+returns book data.
+
+**Deployment notes**  
+Safe to deploy before or after the application update.
+
+**Decisions and tradeoffs**  
+The original proposal used `IsDeleted`. This was changed to `IsRetired`
+to better reflect the business meaning. Retired books are hidden from
+catalog searches and blocked from new loans, but remain available in
+loan history for auditing.
+
+---
+
+## Requirement 5 note — ISBN column
+
+**Description**  
+No migration was required for ISBN.
+
+**Type of change**  
+None
+
+**API impact**  
+No API changes were required.
+
+**Deployment notes**  
+No deployment considerations were needed.
+
+**Decisions and tradeoffs**  
+The requirement assumes ISBN was stored as an integer. In this
+implementation it was already defined as a string, so the schema already
+supports formatted ISBN values and no migration was necessary.

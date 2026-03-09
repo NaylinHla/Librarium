@@ -36,3 +36,14 @@ Date: 2026-03-09
 Makes PhoneNumber required in Members and enforces uniqueness on Email.
 
 This migration assumes duplicate emails have been resolved and missing phone numbers have been populated before execution.
+
+## V005__add_loan_status.sql
+Date: 2026-03-09
+
+Adds Status to Loans with a default value of Active.
+
+Existing loans are backfilled based on ReturnDate:
+- ReturnDate is null -> Active
+- ReturnDate is not null -> Returned
+
+The existing loan API contract remains unchanged so current clients can continue to use ReturnDate during until frontend team is ready >:D

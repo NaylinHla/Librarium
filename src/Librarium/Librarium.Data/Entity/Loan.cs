@@ -14,6 +14,8 @@ namespace Librarium.Data.Entity
 
         public DateTime? ReturnDate { get; set; }
 
+        public LoanStatus Status { get; set; }
+
         public Book Book { get; set; } = null!;
 
         public Member Member { get; set; } = null!;

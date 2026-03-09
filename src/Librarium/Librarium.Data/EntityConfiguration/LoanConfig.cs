@@ -18,6 +18,11 @@ namespace Librarium.Data.EntityConfiguration
             builder.Property(x => x.ReturnDate)
                 .IsRequired(false);
 
+            builder.Property(x => x.Status)
+                .IsRequired()
+                .HasConversion<int>()
+                .HasDefaultValue(LoanStatus.Active);
+
             builder.HasOne(x => x.Book)
                 .WithMany(x => x.Loans)
                 .HasForeignKey(x => x.BookId)

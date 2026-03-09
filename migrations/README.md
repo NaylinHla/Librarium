@@ -58,3 +58,8 @@ Accepted the soft-delete idea but changed the implementation.
 Renamed IsDeleted to IsRetired to better match the business meaning.
 Retired books are hidden from catalogue/search and cannot receive new loans, but they remain visible in loan history so existing records still resolve their book details.
 Avoided a global filter to prevent book data from disappearing in loan responses.
+
+## Requirement 5 note:
+No migration was needed for ISBN in this implementation.
+The ISBN column was already defined as a string, so the schema already supports hyphens and formatted ISBN values.
+Because the incorrect integer-based design was never present in this project, no data replacement or API transition was required.

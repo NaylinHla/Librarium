@@ -1,3 +1,19 @@
+# Librarium
+
+## Setup
+
+Requirements:
+- .NET 8 SDK
+- PostgreSQL
+
+Update the database from the repository root:
+dotnet ef database update --project src/Librarium/Librarium.Data/Librarium.Data.csproj --startup-project src/Librarium/Librarium.Api/Librarium.Api.csproj
+
+Start the API:
+dotnet run --project src/Librarium/Librarium.Api/Librarium.Api.csproj
+
+The API will start and expose the endpoints.
+
 # Database Migrations
 
 Versioned SQL migrations for the Librarium database.

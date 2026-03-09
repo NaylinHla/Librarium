@@ -22,6 +22,26 @@ namespace Librarium.Data.EntityConfiguration
 
             builder.Property(x => x.PublicationYear)
                 .IsRequired();
+
+            builder.HasMany(x => x.Authors)
+                .WithMany(x => x.Books)
+                .UsingEntity<Dictionary<string, object>>(
+                    "BookAuthors",
+                    right => right
+                        .HasOne<Author>()
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade),
+                    left => left
+                        .HasOne<Book>()
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade),
+                    join =>
+                    {
+                        join.ToTable("BookAuthors");
+                        join.HasKey("BookId", "AuthorId");
+                    });
         }
     }
 }

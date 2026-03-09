@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "IpCm2VWBU5r4TEhJCOcu1H+TNftDEC3Y03Jeo9sFQ0A=",
+  "Source": "Librarium.Api",
+  "BasePath": "_content/Librarium.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

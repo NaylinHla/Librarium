@@ -12,6 +12,8 @@ namespace Librarium.Data.Entity
 
         public string Email { get; set; } = null!;
 
+        public string PhoneNumber { get; set; } = null!;
+
         public ICollection<Loan> Loans { get; set; } = new List<Loan>();
     }
 }

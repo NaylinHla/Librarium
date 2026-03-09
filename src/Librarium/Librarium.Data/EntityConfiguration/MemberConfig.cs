@@ -23,6 +23,13 @@ namespace Librarium.Data.EntityConfiguration
             builder.Property(x => x.Email)
                 .IsRequired()
                 .HasMaxLength(200);
+
+            builder.HasIndex(x => x.Email)
+                .IsUnique();
+
+            builder.Property(x => x.PhoneNumber)
+                .IsRequired()
+                .HasMaxLength(50);
         }
     }
 }
